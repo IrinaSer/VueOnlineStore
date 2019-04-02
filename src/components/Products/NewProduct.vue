@@ -51,15 +51,22 @@
                 </v-form>
                 <v-layout class="mb3">
                     <v-flex xs12>
-                        <v-btn class="warning">
+                        <v-btn class="warning" @click="uploadImg">
                             Upload
                             <v-icon gight dark>cloud_upload</v-icon>
                         </v-btn>
+                        <input
+                            ref="fileInput"
+                            type="file"
+                            style="display: none"
+                            accept="image/*"
+                            @change="onFileChange"
+                        >
                     </v-flex>
                 </v-layout>
                 <v-layout>
                     <v-flex xs12>
-                        <img src="https://image.ibb.co/cpScgo/ASUS_FX503_VD.jpg" alt="" height="200">
+                        <img :src="imageSrc" alt="" height="200" v-if="imageSrc">
                     </v-flex>
                 </v-layout>
                 <v-layout>
@@ -75,7 +82,8 @@
                     <v-spacer></v-spacer>
                     <v-flex xs12>
                         <v-btn
-                                :disabled="!valid"
+                                :loading="loading"
+                                :disabled="!valid || !image || loading"
                                 class="success"
                                 @click="createProduct"
                         >
@@ -99,12 +107,19 @@ export default {
       price: 0,
       description: '',
       promo: false,
-      valid: false
+      valid: false,
+      image: null,
+      imageSrc: ''
+    }
+  },
+  computed: {
+    loading () {
+      return this.$store.getters.loading
     }
   },
   methods: {
     createProduct () {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.image) {
         const product = {
           title: this.title,
           vendor: this.vendor,
@@ -113,10 +128,26 @@ export default {
           description: this.description,
           price: this.price,
           promo: this.promo,
-          imageSrc: 'https://image.ibb.co/jBZOMo/ASUS_TUF_Gaming_FX504_GD.jpg'
+          image: this.image
         }
         this.$store.dispatch('createProduct', product)
+          .then(() => {
+            this.$router.push('/list')
+          })
+          .catch(() => {})
       }
+    },
+    uploadImg () {
+      this.$refs.fileInput.click()
+    },
+    onFileChange () {
+      const file = event.target.files[0]
+      const reader = new FileReader()
+      reader.onload = e => {
+        this.imageSrc = reader.result
+      }
+      reader.readAsDataURL(file)
+      this.image = file
     }
   }
 }
