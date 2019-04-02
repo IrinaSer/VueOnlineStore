@@ -112,9 +112,10 @@ export default {
           material: this.material,
           description: this.description,
           price: this.price,
-          promo: this.promo
+          promo: this.promo,
+          imageSrc: 'https://image.ibb.co/jBZOMo/ASUS_TUF_Gaming_FX504_GD.jpg'
         }
-        console.log(product)
+        this.$store.dispatch('createProduct', product)
       }
     }
   }
