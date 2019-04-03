@@ -105,4 +105,36 @@ export default {
         -moz-border-radius: 10px;
         border-radius: 10px;
     }
+    @media screen and (max-width: 1270px) {
+        .product {
+            text-align: center;
+        }
+        .product_info {
+            margin-left: 0;
+        }
+    }
+    @media screen and (max-width: 620px) {
+        .product {
+            text-align: left;
+        }
+        .product_img {
+            width: 100%;
+        }
+        .product_title {
+            text-align: center;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        .product {
+            padding: 10px;
+            text-align: left;
+            margin-bottom: 120px;
+        }
+        .product_img {
+            height: 250px;
+        }
+        .product_info {
+            margin-left: 0;
+        }
+    }
 </style>

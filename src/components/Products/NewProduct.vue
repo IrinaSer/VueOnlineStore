@@ -49,7 +49,7 @@
                             v-model="description"
                     ></v-textarea>
                 </v-form>
-                <v-layout class="mb3">
+                <v-layout row class="mb3">
                     <v-flex xs12>
                         <v-btn class="warning" @click="uploadImg">
                             Upload
@@ -64,12 +64,12 @@
                         >
                     </v-flex>
                 </v-layout>
-                <v-layout>
+                <v-layout row>
                     <v-flex xs12>
                         <img :src="imageSrc" alt="" height="200" v-if="imageSrc">
                     </v-flex>
                 </v-layout>
-                <v-layout>
+                <v-layout row>
                     <v-flex xs12>
                         <v-switch
                                 color="primary"
