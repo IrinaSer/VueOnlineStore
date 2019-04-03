@@ -1,31 +1,42 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <Navbar/>
+    <template v-if="error">
+      <v-snackbar
+              :multi-line="true"
+              :timeout="5000"
+              color="error"
+              @input="closeError"
+              :value="true"
+      >
+        {{ error }}
+        <v-btn
+                dark
+                flat
+                @click="closeError"
+        >
+          Close
+        </v-btn>
+      </v-snackbar>
+    </template>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import Navbar from './components/Navbar'
+export default {
+  components: {
+    Navbar
+  },
+  methods: {
+    closeError () {
+      this.$store.dispatch('clearError')
+    }
+  },
+  computed: {
+    error () {
+      return this.$store.getters.error
+    }
+  }
 }
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>
