@@ -11,8 +11,11 @@
                         <v-carousel-item
                                 v-for="(product,i) in promoProducts"
                                 :key="i"
-                                :src="product.imageSrc"
-                        ></v-carousel-item>
+                        >
+                            <div class="slider__inner">
+                                <img :src="product.imageSrc" :alt="product.title" class="slider__inner-img">
+                            </div>
+                        </v-carousel-item>
                     </v-carousel>
                 </v-flex>
             </v-layout>
@@ -104,5 +107,14 @@ export default {
     .card_price {
         color: #c00f1b;
         font-size: 18px;
+    }
+    .slider__inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+    .slider__inner-img {
+        max-width: 100%;
     }
 </style>
