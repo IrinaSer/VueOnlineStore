@@ -36,7 +36,8 @@
                         <v-btn
                                 color="primary"
                                 @click="onSubmit"
-                                :disabled="!valid"
+                                :loading="loading"
+                                :disabled="!valid || loading"
                         >Login</v-btn>
                     </v-card-actions>
                 </v-card>
@@ -62,6 +63,11 @@ export default {
       ]
     }
   },
+  computed: {
+    loading () {
+      return this.$store.getters.loading
+    }
+  },
   methods: {
     onSubmit () {
       if (this.$refs.form.validate()) {
@@ -69,8 +75,17 @@ export default {
           email: this.email,
           password: this.password
         }
-        console.log(user)
+        this.$store.dispatch('loginUser', user)
+          .then(() => {
+            this.$router.push('/')
+          })
+          .catch(() => {})
       }
+    }
+  },
+  created () {
+    if (this.$route.query['loginError']) {
+      this.$store.dispatch('setError', 'Please log in to access this page')
     }
   }
 }
