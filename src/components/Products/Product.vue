@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <section class="product nt-3 elevation-10">
+        <section class="product nt-3 elevation-10" v-if="!loading">
             <v-layout row wrap>
                 <v-flex xs12 lg6>
                     <img :src="product.imageSrc" alt="" class="product_img">
@@ -31,23 +31,42 @@
                             </p>
                             {{ product.description }}
                         </div>
-                        <v-btn color="primary" class="headline">Edit</v-btn>
-                        <v-btn color="primary" class="headline">Buy</v-btn>
+                        <app-edit-product :product="product" v-if="isOwner"></app-edit-product>
+                        <app-buy-dialog :product="product"></app-buy-dialog>
                     </div>
                 </v-flex>
             </v-layout>
+        </section>
+        <section v-else class="text-xs-center">
+            <v-progress-circular
+                    :size="100"
+                    :width="4"
+                    color="purple"
+                    indeterminate
+            ></v-progress-circular>
         </section>
     </v-container>
 </template>
 
 <script>
+import EditProduct from './EditProduct'
+
 export default {
   props: ['id'],
   computed: {
     product () {
       const id = this.id
       return this.$store.getters.productById(id)
+    },
+    loading () {
+      return this.$store.getters.loading
+    },
+    isOwner () {
+      return this.product.ownerId === this.$store.getters.user.id
     }
+  },
+  components: {
+    appEditProduct: EditProduct
   }
 }
 </script>

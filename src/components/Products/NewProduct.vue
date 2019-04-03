@@ -140,7 +140,7 @@ export default {
     uploadImg () {
       this.$refs.fileInput.click()
     },
-    onFileChange () {
+    onFileChange (event) {
       const file = event.target.files[0]
       const reader = new FileReader()
       reader.onload = e => {

@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import './plugins/vuetify'
+import Vuetify from 'vuetify'
 import App from './App.vue'
 import router from './router/index'
+import BuyDialogComponent from './components/Common/BuyDialog.vue'
 import store from './store'
 import * as firebase from 'firebase/app'
 
+Vue.use(Vuetify)
 Vue.config.productionTip = false
+Vue.component('app-buy-dialog', BuyDialogComponent)
 
 new Vue({
   router,
